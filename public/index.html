@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Flutter APK Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="grid-overlay"></div>
+<div class="wrapper">
+  <header class="header">
+    <div class="logo-box">FA</div>
+    <div class="header-text">
+      <span class="eyebrow">Flutter / Android</span>
+      <h1>APK Builder</h1>
+      <p>Paste a Flutter project repository link and get a ready-to-install APK.</p>
+    </div>
+    <div class="badge">v1.0</div>
+  </header>
+
+  <section class="form-box">
+    <label for="repoUrl">Git repository URL</label>
+    <div class="input-row">
+      <input type="text" id="repoUrl" placeholder="https://github.com/user/flutter-app.git" spellcheck="false" />
+      <button id="buildBtn"><span>Build</span></button>
+    </div>
+    <p class="hint">The repository must contain a valid Flutter project.</p>
+  </section>
+
+  <section class="steps-grid" id="stepsGrid">
+    <div class="step-box" data-step="cloning">
+      <div class="step-icon">01</div>
+      <div class="step-title">Clone</div>
+      <div class="step-desc">Fetching your repository</div>
+    </div>
+    <div class="step-box" data-step="preparing">
+      <div class="step-icon">02</div>
+      <div class="step-title">Prepare</div>
+      <div class="step-desc">Generating platform files</div>
+    </div>
+    <div class="step-box" data-step="fetching">
+      <div class="step-icon">03</div>
+      <div class="step-title">Dependencies</div>
+      <div class="step-desc">Running pub get</div>
+    </div>
+    <div class="step-box" data-step="building">
+      <div class="step-icon">04</div>
+      <div class="step-title">Build</div>
+      <div class="step-desc">Compiling release APK</div>
+    </div>
+  </section>
+
+  <section class="status-box" id="statusBox">
+    <div class="status-line">
+      <span class="status-label">Status</span>
+      <span id="statusText">Idle</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div id="downloadArea" class="download-area"></div>
+  </section>
+
+  <section class="log-box">
+    <div class="log-header">
+      <span>Build log</span>
+      <div class="dots"><span></span><span></span><span></span></div>
+    </div>
+    <pre id="logOutput">Waiting for a build to start...</pre>
+  </section>
+
+  <footer class="footer">Runs on Node.js, Flutter SDK and the Android command-line tools.</footer>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

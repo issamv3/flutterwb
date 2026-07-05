@@ -1,0 +1,12 @@
+{
+  "name": "flutter-apk-builder",
+  "version": "1.0.0",
+  "description": "Build Flutter APKs from a Git repository URL",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.1"
+  }
+}
