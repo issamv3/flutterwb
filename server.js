@@ -62,22 +62,48 @@ async function buildApk(job) {
     await runCommand(
       job,
       "flutter",
-      ["build", "apk", "--release", "--target-platform", "android-arm"],
+      ["build", "apk", "--release", "--target-platform", "android-arm", "--split-per-abi"],
       repoDir
     );
 
-    const apkPath = path.join(
-      repoDir,
-      "build",
-      "app",
-      "outputs",
-      "flutter-apk",
-      "app-release.apk"
-    );
+    const apkDir = path.join(
+  repoDir,
+  "build",
+  "app",
+  "outputs",
+  "flutter-apk"
+);
 
-    if (!fs.existsSync(apkPath)) {
-      throw new Error("Build finished but APK was not found");
-    }
+const expectedApkNames = [
+  "app-release.apk",
+  "app-release-universal.apk",
+  "app-armeabi-v7a-release.apk",
+  "app-arm64-v8a-release.apk",
+  "app-x86_64-release.apk",
+  "app-x86-release.apk",
+];
+
+const candidates = expectedApkNames
+  .map((name) => path.join(apkDir, name))
+  .filter((file) => fs.existsSync(file))
+  .map((file) => ({
+    file,
+    mtimeMs: fs.statSync(file).mtimeMs,
+  }));
+
+if (candidates.length === 0) {
+  throw new Error("Build finished but APK was not found");
+}
+
+candidates.sort((a, b) => b.mtimeMs - a.mtimeMs);
+
+const apkPath = candidates[0].file;
+
+if (!apkPath) {
+  throw new Error(
+    `Build finished but APK was not found in ${apkDir}. Expected one of: ${expectedApkNames.join(", ")}`
+  );
+}
 
     job.apkPath = apkPath;
     job.status = "success";
